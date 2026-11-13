@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Semak SAP</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f4f7;--surface:#fff;--ink:#17212b;--muted:#5f6c7a;--line:#dde2e8;--accent:#0b5cad;--accent-ink:#fff;--warn:#b45f06;--warnbg:#fdf0dc;--bad:#b3261e;--badbg:#fbe4e2;--ok:#1b7a43;--okbg:#e0f3e8;--chip:#e7eef7;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f151c;--surface:#18212b;--ink:#e8edf2;--muted:#98a5b3;--line:#2a3643;--accent:#5aa4f0;--accent-ink:#0b1722;--warn:#f0b35a;--warnbg:#3a2c12;--bad:#f2928b;--badbg:#3d1c1a;--ok:#6fd09b;--okbg:#14301f;--chip:#22313f}}
+:root[data-theme="dark"]{--bg:#0f151c;--surface:#18212b;--ink:#e8edf2;--muted:#98a5b3;--line:#2a3643;--accent:#5aa4f0;--accent-ink:#0b1722;--warn:#f0b35a;--warnbg:#3a2c12;--bad:#f2928b;--badbg:#3d1c1a;--ok:#6fd09b;--okbg:#14301f;--chip:#22313f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+nav{background:var(--surface);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-weight:600;font-size:18px;padding:0 10px 16px}
+.brand small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+nav a{display:flex;justify-content:space-between;align-items:center;padding:9px 10px;border-radius:8px;color:var(--ink);text-decoration:none;margin-bottom:2px}
+nav a:hover{background:var(--chip)}
+nav a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+nav a:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cnt{font-size:12px;opacity:.8}
+main{padding:24px clamp(16px,3vw,36px);max-width:1100px;width:100%}
+.demo{background:var(--warnbg);color:var(--warn);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:18px}
+.search{display:flex;gap:8px;margin-bottom:22px}
+.search input{flex:1;font:inherit;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.search button{font:inherit;font-weight:500;padding:0 20px;border:0;border-radius:10px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+h1{font-size:24px;margin:0 0 4px;font-weight:600}
+.sub{color:var(--muted);margin:0 0 18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.kpi b{display:block;font-size:26px;font-weight:600}
+.kpi span{color:var(--muted);font-size:13px}
+h2{font-size:16px;margin:22px 0 10px;font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:13px;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--chip)}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:500}
+.ok{background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.bad{background:var(--badbg);color:var(--bad)}.neutral{background:var(--chip);color:var(--muted)}
+.mod{font-size:12px;color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:22px;max-width:440px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dl{display:grid;grid-template-columns:120px 1fr;gap:8px 12px;margin:14px 0}
+dt{color:var(--muted)}dd{margin:0}
+dialog button{font:inherit;padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+@media(max-width:760px){.app{grid-template-columns:1fr}nav{position:static;height:auto;display:flex;gap:4px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px}.brand{display:none}nav a{white-space:nowrap;gap:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav id="nav" aria-label="Modul SAP">
+  <div class="brand">Semak SAP<small>Satu tempat untuk semua</small></div>
+</nav>
+<main>
+  <div class="demo">Data contoh sahaja. Belum disambung ke sistem SAP sebenar.</div>
+  <form class="search" id="sf" role="search">
+    <input id="q" type="search" placeholder="Cari nombor PO, pelanggan, bahan, invois, pekerja" aria-label="Cari di semua modul">
+    <button type="submit">Cari</button>
+  </form>
+  <div id="view"></div>
+</main>
+</div>
+<dialog id="dlg"><div id="dbody"></div><button id="close">Tutup</button></dialog>
+<script>
+var MODS=[
+{k:"ringkasan",n:"Ringkasan"},
+{k:"jualan",n:"Jualan"},
+{k:"inventori",n:"Inventori"},
+{k:"pembelian",n:"Pembelian"},
+{k:"kewangan",n:"Kewangan"},
+{k:"hr",n:"HR"}];
+var D=[
+{m:"jualan",id:"SO-10021",t:"Syarikat Maju Jaya",s:"Dihantar",c:"ok",a:48200,d:"2026-11-08",x:{Produk:"Pam air 2HP x 40",Wilayah:"Sabah"}},
+{m:"jualan",id:"SO-10022",t:"Borneo Hardware",s:"Menunggu bayaran",c:"warn",a:12950,d:"2026-11-09",x:{Produk:"Paip PVC x 300",Wilayah:"Sarawak"}},
+{m:"jualan",id:"SO-10023",t:"Kinabalu Trading",s:"Tertunggak",c:"bad",a:30400,d:"2026-10-12",x:{Produk:"Genset 5kVA x 4",Wilayah:"Sabah"}},
+{m:"jualan",id:"SO-10024",t:"Sandakan Supplies",s:"Baru",c:"neutral",a:7800,d:"2026-11-10",x:{Produk:"Kabel 2.5mm x 20",Wilayah:"Sabah"}},
+{m:"inventori",id:"MAT-5001",t:"Pam air 2HP",s:"Stok rendah",c:"bad",a:12,d:"2026-11-10",x:{Gudang:"KK-01",Minimum:30,Unit:"unit"}},
+{m:"inventori",id:"MAT-5002",t:"Paip PVC 2 inci",s:"Mencukupi",c:"ok",a:1450,d:"2026-11-10",x:{Gudang:"KK-01",Minimum:400,Unit:"batang"}},
+{m:"inventori",id:"MAT-5003",t:"Genset 5kVA",s:"Hampir minimum",c:"warn",a:6,d:"2026-11-10",x:{Gudang:"SDK-02",Minimum:5,Unit:"unit"}},
+{m:"inventori",id:"MAT-5004",t:"Kabel 2.5mm",s:"Mencukupi",c:"ok",a:820,d:"2026-11-10",x:{Gudang:"SDK-02",Minimum:200,Unit:"gelung"}},
+{m:"pembelian",id:"PO-45001",t:"Pembekal Pam Asia",s:"Lewat 5 hari",c:"bad",a:36000,d:"2026-11-05",x:{Bahan:"Pam air 2HP x 60",Jangkaan:"2026-11-05"}},
+{m:"pembelian",id:"PO-45002",t:"PVC Industri Sdn Bhd",s:"Dalam perjalanan",c:"ok",a:18400,d:"2026-11-14",x:{Bahan:"Paip PVC 2 inci x 800",Jangkaan:"2026-11-14"}},
+{m:"pembelian",id:"PO-45003",t:"Kabel Nusantara",s:"Menunggu kelulusan",c:"warn",a:9200,d:"2026-11-20",x:{Bahan:"Kabel 2.5mm x 100",Jangkaan:"2026-11-20"}},
+{m:"kewangan",id:"INV-90010",t:"Kinabalu Trading",s:"Tertunggak 29 hari",c:"bad",a:30400,d:"2026-10-12",x:{Jenis:"Belum terima",Akaun:"Penghutang"}},
+{m:"kewangan",id:"INV-90011",t:"Borneo Hardware",s:"Belum matang",c:"warn",a:12950,d:"2026-11-23",x:{Jenis:"Belum terima",Akaun:"Penghutang"}},
+{m:"kewangan",id:"BIL-70005",t:"Pembekal Pam Asia",s:"Dibayar",c:"ok",a:22000,d:"2026-11-02",x:{Jenis:"Belum bayar",Akaun:"Pemiutang"}},
+{m:"hr",id:"EMP-3001",t:"Aminah Yusof",s:"Cuti 3 hari",c:"neutral",a:3,d:"2026-11-12",x:{Jabatan:"Jualan",Jenis:"Cuti tahunan"}},
+{m:"hr",id:"EMP-3002",t:"Jason Lim",s:"Menunggu kelulusan",c:"warn",a:5,d:"2026-11-16",x:{Jabatan:"Gudang",Jenis:"Cuti tahunan"}},
+{m:"hr",id:"EMP-3003",t:"Siti Rahmah",s:"Hadir",c:"ok",a:0,d:"2026-11-10",x:{Jabatan:"Kewangan",Jenis:"-"}}];
+var UNIT={jualan:"RM",pembelian:"RM",kewangan:"RM",inventori:"",hr:""};
+var COL={jualan:["No. pesanan","Pelanggan","Status","Nilai","Tarikh"],inventori:["Kod bahan","Bahan","Status","Kuantiti","Dikemas kini"],pembelian:["No. PO","Pembekal","Status","Nilai","Jangkaan"],kewangan:["No. dokumen","Pihak","Status","Jumlah","Tarikh"],hr:["ID","Nama","Status","Hari","Mula"]};
+function fmt(r){return r.m==="hr"?r.a+" hari":(UNIT[r.m]?"RM "+r.a.toLocaleString("en-US"):r.a.toLocaleString("en-US"))}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function modName(k){return MODS.filter(function(m){return m.k===k})[0].n}
+function rows(list,showMod){
+  if(!list.length)return '<div class="empty">Tiada rekod dijumpai. Cuba kata kunci lain.</div>';
+  return '<div class="scroll"><table><thead><tr>'+(showMod?'<th>Modul</th>':'')+'<th>ID</th><th>Nama</th><th>Status</th><th>Nilai</th><th>Tarikh</th></tr></thead><tbody>'+
+  list.map(function(r){var i=D.indexOf(r);return '<tr tabindex="0" data-i="'+i+'">'+(showMod?'<td class="mod">'+modName(r.m)+'</td>':'')+'<td>'+esc(r.id)+'</td><td>'+esc(r.t)+'</td><td><span class="tag '+r.c+'">'+esc(r.s)+'</span></td><td>'+fmt(r)+'</td><td>'+r.d+'</td></tr>'}).join("")+'</tbody></table></div>'}
+function attention(){return D.filter(function(r){return r.c==="bad"||r.c==="warn"})}
+function sum(m){return D.filter(function(r){return r.m===m}).reduce(function(a,r){return a+r.a},0)}
+function render(){
+  var h=(location.hash||"#ringkasan").slice(1),v=document.getElementById("view");
+  if(!MODS.some(function(m){return m.k===h}))h="ringkasan";
+  document.querySelectorAll("#nav a").forEach(function(a){a.toggleAttribute("aria-current",a.dataset.k===h);if(a.dataset.k===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(h==="ringkasan"){
+    var bad=D.filter(function(r){return r.c==="bad"}).length,warn=D.filter(function(r){return r.c==="warn"}).length;
+    v.innerHTML='<h1>Ringkasan hari ini</h1><p class="sub">10 November 2026. Isu dari semua modul dikumpul di sini.</p>'+
+    '<div class="kpis">'+
+    '<button class="kpi" data-go="jualan"><b>RM '+sum("jualan").toLocaleString("en-US")+'</b><span>Nilai pesanan jualan</span></button>'+
+    '<button class="kpi" data-go="pembelian"><b>RM '+sum("pembelian").toLocaleString("en-US")+'</b><span>Pesanan pembelian terbuka</span></button>'+
+    '<button class="kpi" data-go="inventori"><b>'+D.filter(function(r){return r.m==="inventori"&&r.c!=="ok"}).length+'</b><span>Bahan perlu diisi semula</span></button>'+
+    '<button class="kpi" data-go="kewangan"><b>RM 30,400</b><span>Invois tertunggak</span></button></div>'+
+    '<h2>Perlu perhatian ('+(bad+warn)+')</h2><div class="panel">'+rows(attention().sort(function(a,b){return a.c==="bad"?-1:1}),true)+'</div>';
+  }else{
+    var list=D.filter(function(r){return r.m===h});
+    v.innerHTML='<h1>'+modName(h)+'</h1><p class="sub">'+list.length+' rekod. Klik baris untuk butiran.</p><div class="panel">'+rows(list,false)+'</div>';
+  }
+}
+function search(q){
+  q=q.trim().toLowerCase();var v=document.getElementById("view");
+  if(!q){render();return}
+  var list=D.filter(function(r){return (r.id+" "+r.t+" "+r.s+" "+Object.values(r.x).join(" ")).toLowerCase().indexOf(q)>-1});
+  v.innerHTML='<h1>Hasil carian</h1><p class="sub">'+list.length+' rekod dijumpai merentas semua modul untuk “'+esc(q)+'”.</p><div class="panel">'+rows(list,true)+'</div>';
+}
+function detail(i){
+  var r=D[i];
+  document.getElementById("dbody").innerHTML='<h2 style="margin-top:0">'+esc(r.id)+'</h2><span class="tag '+r.c+'">'+esc(r.s)+'</span><dl><dt>Modul</dt><dd>'+modName(r.m)+'</dd><dt>Nama</dt><dd>'+esc(r.t)+'</dd><dt>Nilai</dt><dd>'+fmt(r)+'</dd><dt>Tarikh</dt><dd>'+r.d+'</dd>'+
+  Object.keys(r.x).map(function(k){return '<dt>'+esc(k)+'</dt><dd>'+esc(r.x[k])+'</dd>'}).join("")+'</dl>';
+  document.getElementById("dlg").showModal();
+}
+var nav=document.getElementById("nav");
+MODS.forEach(function(m){
+  var a=document.createElement("a");a.href="#"+m.k;a.dataset.k=m.k;
+  var c=m.k==="ringkasan"?attention().length:D.filter(function(r){return r.m===m.k}).length;
+  a.innerHTML=m.n+' <span class="cnt">'+c+'</span>';nav.appendChild(a);
+});
+document.getElementById("sf").addEventListener("submit",function(e){e.preventDefault();search(document.getElementById("q").value)});
+document.getElementById("q").addEventListener("input",function(e){search(e.target.value)});
+document.getElementById("view").addEventListener("click",function(e){
+  var tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i);
+  var k=e.target.closest("[data-go]");if(k)location.hash="#"+k.dataset.go;
+});
+document.getElementById("view").addEventListener("keydown",function(e){if(e.key==="Enter"){var tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i)}});
+document.getElementById("close").addEventListener("click",function(){document.getElementById("dlg").close()});
+window.addEventListener("hashchange",function(){document.getElementById("q").value="";render()});
+render();
+</script>
+</body>
+</html>

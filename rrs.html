@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RRS — Return Record System</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F2F0;--card:#FFFDFC;--ink:#2A1218;--mut:#7A6468;--line:#E8DCD8;--ac:#8C3347;--acfg:#fff;--head:#722F3E;--side:#3B1522;--gr:#2F6B3F;--grb:#E3F0E5;--bl:#35558F;--blb:#E4EBF7;--rd:#A33344;--rdb:#FBE4E4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A0E12;--card:#26151B;--ink:#F3E6E8;--mut:#B79DA3;--line:#3C2830;--ac:#E58AA0;--acfg:#1A0E12;--grb:#1F3A27;--gr:#8FD3A2;--blb:#1E2B47;--bl:#9DB8F0;--rdb:#47202A;--rd:#F2A0AC}}
+:root[data-theme="dark"]{--bg:#1A0E12;--card:#26151B;--ink:#F3E6E8;--mut:#B79DA3;--line:#3C2830;--ac:#E58AA0;--acfg:#1A0E12;--grb:#1F3A27;--gr:#8FD3A2;--blb:#1E2B47;--bl:#9DB8F0;--rdb:#47202A;--rd:#F2A0AC}
+*{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,sans-serif;line-height:1.5}
+.app{display:flex;min-height:100vh}
+aside{width:210px;background:var(--side);color:#F3DDE2;padding:18px 12px;flex:0 0 auto}
+.brand{display:flex;align-items:center;gap:10px;margin:0 6px 20px;font-weight:800}
+.brand i{font-style:normal;background:#5A2030;border:1px solid #8C4A5C;border-radius:10px;padding:6px 8px;font-size:.85rem}
+.brand small{display:block;font-weight:600;font-size:.62rem;letter-spacing:.12em;opacity:.7}
+nav a{display:block;color:inherit;text-decoration:none;padding:10px 12px;border-radius:10px;margin-bottom:4px;font-weight:600;font-size:.92rem}
+nav a.on{background:#7A3446;color:#fff}nav a:hover{background:#4D1D2D}
+.col{flex:1;min-width:0;padding:16px}
+.top{background:var(--head);color:#fff;border-radius:12px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{margin:0;font-size:1.35rem;font-weight:800}.top p{margin:2px 0 0;font-size:.68rem;letter-spacing:.1em;opacity:.85}
+.pill-o{border:1px solid #fff9;border-radius:999px;padding:6px 14px;font-size:.78rem;font-weight:800;background:none;color:#fff;cursor:pointer;font-family:inherit}
+main{max-width:1000px;margin:16px auto 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.hero h2{font-size:2rem;margin:4px 0;font-weight:800;letter-spacing:-.02em}.hero .k{color:var(--ac);font-weight:800;font-size:.72rem;letter-spacing:.1em}
+.mut{color:var(--mut)}.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.stat{border-radius:16px;padding:20px;border:1px solid var(--line)}.stat.fresh{background:var(--grb)}.stat.goods{background:var(--blb)}.stat.warn{background:var(--rdb)}
+.stat b.n{display:block;font-size:2.4rem;line-height:1.2;margin:8px 0}.stat a{color:var(--ink);font-weight:800;text-decoration:none}
+.tag{font-size:.68rem;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:6px;text-transform:uppercase}
+.tag.fresh{background:var(--grb);color:var(--gr)}.tag.goods{background:var(--blb);color:var(--bl)}.tag.warn{background:var(--rdb);color:var(--rd)}
+.pill{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.78rem;color:var(--mut)}
+ul.act{list-style:none;margin:0;padding:0}ul.act li{padding:10px 0;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}ul.act small{width:100%;color:var(--mut)}
+h3{margin:0 0 12px;font-size:1.1rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 8px 14px 0;background:var(--card);flex-wrap:wrap}
+.seg button{border:0;background:none;padding:10px 16px;font:inherit;font-weight:700;color:var(--mut);cursor:pointer}.seg button.on{background:var(--ac);color:var(--acfg)}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));align-items:end}
+label{display:block;font-size:.78rem;font-weight:700;color:var(--mut)}
+input,select{width:100%;margin-top:4px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.btn{border:0;background:var(--ac);color:var(--acfg);padding:10px 18px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer}
+.btn.g{background:none;border:1px solid var(--line);color:var(--ink)}.btn.r{background:var(--rdb);color:var(--rd)}.btn:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.sum{display:flex;gap:14px;flex-wrap:wrap;align-items:center}.sum span{color:var(--mut)}.sum b{color:var(--ink)}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+details.e{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--card)}details.e summary{padding:12px 14px;cursor:pointer;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.eb{padding:0 14px 14px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:12px}.row label{flex:1 1 160px}
+.empty{text-align:center;color:var(--mut);padding:24px}.hint{min-height:1.4em;font-size:.85rem;color:var(--mut);margin:8px 0 0}
+#cpv{position:fixed;right:16px;bottom:calc(70px + env(safe-area-inset-bottom,0px));max-width:min(560px,calc(100vw - 32px));background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;z-index:25;box-shadow:0 6px 24px #0003;display:none}#cpv.on{display:block}#cpv pre{margin:6px 0 0;font-size:12px;overflow:auto;max-height:180px;white-space:pre}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}#toast.on{opacity:1}
+#modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}#modal.on{display:flex}#modal .card{max-width:420px;width:100%;margin:0}
+#pdoc{display:none}
+@page{size:A4;margin:8mm}
+@media print{body>*:not(#pdoc){display:none!important}body{background:#fff!important}:root{padding:0!important}#pdoc{display:block;color:#111;background:#fff;font-family:Georgia,"Times New Roman",serif;font-size:11px;padding:6mm}#pdoc h2{text-align:center;margin:0;font-size:16px}#pdoc .ps{text-align:center;font-size:9px;font-weight:700;margin:2px 0 8px}#pdoc hr{border:0;border-top:1px solid #333;margin:8px 0}#pdoc .pg{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}#pdoc .pm{margin-bottom:6px}#pdoc small{display:block;font-size:8px;font-weight:700;color:#7a4a00;text-transform:uppercase}#pdoc table{width:100%;border:1px solid #333;margin-top:8px}#pdoc th,#pdoc td{border:1px solid #333;padding:4px 6px;text-align:left;font-size:10px}#pdoc .psg{display:flex;gap:30px;margin-top:70px;font-size:9px;font-weight:700}#pdoc .psg div{flex:1}#pdoc .psg i{display:block;border-top:1px solid #333;height:28px;margin-bottom:3px}}
+@media (max-width:760px){.app{flex-direction:column}aside{width:100%;padding:10px}.brand{margin-bottom:8px}nav{display:flex;overflow-x:auto;gap:4px}nav a{white-space:nowrap;margin:0}.hero h2{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside><div class="brand"><i>RR</i><div>RRS<small>RETURN RECORDS</small></div></div><nav id="nav"></nav></aside>
+<div class="col">
+<header class="top"><div><h1>RRS — Return Record System</h1><p>SUPERMARKET GOODS RETURN · FOOD · NON-FOOD · DOCUMENT TRACKING</p></div><button class="pill-o" id="op" data-a="outlet"></button></header>
+<main id="main"></main>
+</div></div>
+<div id="modal"><div class="card"><h3>Choose outlet</h3><p class="mut">Enter the outlet this device belongs to. This is only asked once per device.</p><label>Outlet<input id="ob" placeholder="e.g. 1007-SHPP"></label><div class="row"><button class="btn" data-a="outlet-save" data-v="ob">Continue</button></div></div></div>
+<div id="pdoc" aria-hidden="true"></div>
+<div id="cpv" role="status"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+const TN={fresh:"Food",goods:"Non-Food"},REASONS=["Damaged","Expired","Near expiry","Wrong item","Overstock","Others"],UOMS=["PCS","PACK","CARTON","BOX","KG","BOTTLE","CAN","SET"];
+const NAV=[["home","⌂  Home"],["new","＋  New Return"],["records","▤  Return Records"],["docs","❐  Documents"],["master","☰  Masterlist"],["admin","🔒  Admin"],["store","⚙  Store Settings"]];
+let C={fresh:["101 MILK POWDER","102 CONFECTIONERY","103 RICE","104 COOKING OIL","105 CONDIMENTS / SEASONINGS","106 NOODLES / PORRIDGE / PASTA","107 CANNED & BOTTLED FOODS","108 BREAKFAST FOODS & SPREAD","109 BAKING NEEDS","110 BEVERAGES","111 ALCOHOLIC DRINKS","112 HEALTH FOOD / MEDICINE / FIRST AID","113 BAKERY","114 ORGANIC","115 DRIED FOOD","116 HOT FOOD","201 FROZEN / CHILL / DAIRY","202 MEAT & POULTRY","203 FRUITS","204 VEGETABLES","205 PREPACKED FOOD"],goods:["301 SANITARY & DIAPERS","302 BABY CARE","303 HAIR CARE","304 BODY CARE","305 FACIAL CARE & COSMETICS","306 DENTAL CARE","307 FABRIC & HOUSEHOLD","309 AIR FRESHENERS","310 PET FOOD","311 BATTERY / LIGHT SOURCE","312 TOBACCO / MAGAZINE & NEWSPAPER","401 HOUSEHOLD KITCHEN","402 HOUSEHOLD BATHROOM & LIVING ROOM","403 ELECTRICAL","404 HARDWARE","405 CAR ACCESSORIES","406 STATIONERY","407 SLIPPERS","408 SPORTS","409 TOYS","410 GIFT","411 FESTIVAL DECORATION ITEMS","412 FURNITURE","413 GARDENING","501 LINEN FURNISHING","502 LUGGAGE / TRAVEL ACCESSORIES","503 BACK TO SCHOOL","504 LADIES","505 GENTS","506 GENTS’ FOOTWEAR","507 BABY/ INFANT","508 BABY ACCESSORIES","509 CHILDREN"]};
+const DEF=JSON.parse(JSON.stringify(C));
+let OUT="";try{OUT=localStorage.getItem("rrs-outlet")||""}catch(e){}
+let db=null,R=[],M={},isAdmin=false,loaded=false,err="";
+let DE=null,de=false,dv=null,rf="",rto="",rty="",rst="",view="home",nt="fresh",D=null,rt="fresh",sub="pending",cf="",dq="",mt="fresh",mq="",ML=null;
+const $=s=>document.querySelector(s),v=id=>($("#"+id)||{}).value||"";
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=t=>{const d=new Date(t),p=n=>String(n).padStart(2,"0");return p(d.getDate())+"."+p(d.getMonth()+1)+"."+d.getFullYear()+" "+p(d.getHours())+":"+p(d.getMinutes())};
+const mk=(t,c)=>t+"_"+String(c).trim().replace(/[^A-Za-z0-9_-]/g,"_").slice(0,150);
+const fm=(t,c)=>M[mk(t,c)]||Object.values(M).find(x=>x.type===t&&x.mat&&x.mat===String(c).trim());
+const mine=()=>R.filter(e=>e.outlet===OUT);
+const cnt=(t,s)=>mine().filter(e=>e.type===t&&e.status===s).length;
+function unk(t){const m={};mine().filter(e=>e.type===t&&e.status==="pending").forEach(e=>e.items.forEach(i=>{if(!fm(t,i.code)){const o=m[i.code]=m[i.code]||{code:i.code,desc:i.desc,n:0};o.n++}}));return Object.values(m)}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2400)}
+async function W(f,ok){try{await f();if(ok)toast(ok);return true}catch(e){toast(e&&e.code==="permission_denied"?"You don’t have permission to do that":"Could not save: "+((e&&(e.code||e.message))||"error"));return false}}
+const fld=(id,l,val="",ph="",type="text")=>`<label>${l}<input id="${id}" type="${type}" value="${esc(val)}" placeholder="${ph}" autocomplete="off"></label>`;
+const sel=(id,l,opts,val="")=>`<label>${l}<select id="${id}"><option value="">Select…</option>${opts.map(o=>`<option ${o===val?"selected":""}>${esc(o)}</option>`).join("")}</select></label>`;
+const seg=(items,cur,a)=>`<div class="seg">${items.map(([k,l])=>`<button class="${cur===k?"on":""}" data-a="${a}" data-v="${k}">${l}</button>`).join("")}</div>`;
+const TS=[["fresh","Food"],["goods","Non-Food"]];
+function home(){
+  const h=new Date().getHours(),g=h<12?"morning":h<18?"afternoon":"evening",rec=[...mine()].sort((a,b)=>b.created-a.created).slice(0,5),pr=unk("fresh").length+unk("goods").length;
+  return `<section class="card hero"><span class="k">RRS · RETURN RECORD SYSTEM</span><h2>Good ${g}, welcome back.</h2><p class="mut">${new Date().toLocaleDateString("en-GB",{weekday:"long"})+", "+fmt(Date.now()).slice(0,10)} — your outlet return overview. Choose an action to get started.</p></section>
+  <div class="grid"><div class="stat fresh"><b>Food Return</b> <span class="tag fresh">Pending</span><b class="n">${cnt("fresh","pending")}</b><span class="mut">Waiting for IT processing · </span><a href="#records" data-a="rec" data-v="fresh">View pending →</a></div>
+  <div class="stat goods"><b>Non-Food Return</b> <span class="tag goods">Pending</span><b class="n">${cnt("goods","pending")}</b><span class="mut">Waiting for IT processing · </span><a href="#records" data-a="rec" data-v="goods">View pending →</a></div>
+  <div class="stat warn"><b>Problem items</b><b class="n">${pr}</b><span class="mut">Codes missing from masterlist · </span><a href="#records" data-a="prob">Review →</a></div></div>
+  <div class="grid" style="margin-top:16px"><div class="card"><h3>New Food Return</h3><p class="mut">Record food products being returned and submit the return document.</p><a class="btn" href="#new" data-a="nt" data-v="fresh" style="text-decoration:none;display:inline-block">Start food entry →</a></div>
+  <div class="card"><h3>New Non-Food Return</h3><p class="mut">Record non-food items returned to the supplier and manage the related document.</p><a class="btn" href="#new" data-a="nt" data-v="goods" style="text-decoration:none;display:inline-block">Start non-food entry →</a></div>
+  <div class="card"><h3>◷ Recent Activity</h3><ul class="act">${rec.length?rec.map(e=>`<li><span class="tag ${e.type}">${TN[e.type]}</span><b>${esc(e.cat)}</b><span class="pill">${e.items.length} item(s)</span><small>${fmt(e.created)} · ${esc(e.staff)}</small></li>`).join(""):`<li class="mut">${loaded?"No activity yet.":"Loading…"}</li>`}</ul></div></div>`;
+}
+function newv(){
+  const t=D?D.type:nt,edit=!D||D.edit,d=D||{};
+  let h=seg(TS.map(([k,l])=>[k,l+" Return"]),t,D?"x":"nt")+`<section class="card"><h3>1 &nbsp;Start New Entry</h3>`;
+  h+=edit?`<div class="form">${fld("st","Receiving",d.staff)}${fld("sp","Supervisor",d.sup)}${fld("ck","Checked by",d.chk)}${fld("pt","Return to (supplier / vendor)",d.party)}${sel("ct","Category",C[t],d.cat)}<button class="btn" data-a="cont">Continue</button></div>`
+  :`<div class="sum"><span>Receiving <b>${esc(d.staff)}</b></span><span>Supervisor <b>${esc(d.sup)}</b></span><span>Checked by <b>${esc(d.chk||"—")}</b></span><span>Supplier <b>${esc(d.party||"—")}</b></span><span>Category <b>${esc(d.cat)}</b></span><button class="btn g" data-a="edit">Edit</button><button class="btn r" data-a="cancel">Cancel</button></div>`;
+  h+=`</section>`;
+  if(D&&!edit)h+=`<section class="card"><h3>2 &nbsp;Scan &amp; Add Item</h3><div class="form">${fld("ic","Barcode / Material / PLU code")}<button class="btn g" data-a="look">Look up</button>${fld("imat","Material code (SAP)")}${fld("id","Description")}${fld("iq","Quantity","","0","number")}${sel("iu","UOM (pack / carton / pcs…)",UOMS)}${sel("ir","Reason",REASONS)}${fld("im","Remark")}<button class="btn" data-a="add">Insert</button></div><p class="hint" id="hint"></p></section>
+  <section class="card"><h3>3 &nbsp;Preview (${D.items.length} items)</h3>${D.items.length?`<div class="tbl"><table><tr><th>#</th><th>Code</th><th>Material</th><th>Description</th><th>Qty</th><th>Reason</th><th>Remark</th><th></th></tr>${D.items.map((i,n)=>`<tr><td>${n+1}</td><td>${esc(i.code)}</td><td>${esc(i.mat||"—")}</td><td>${esc(i.desc||"—")}</td><td>${i.qty} ${esc(i.uom||"")}</td><td>${esc(i.reason)}</td><td>${esc(i.remark||"")}</td><td><button class="btn r" data-a="rm" data-v="${n}" aria-label="Remove item ${n+1}">✕</button></td></tr>`).join("")}</table></div>`:`<p class="empty">No items added yet.</p>`}<div class="row"><button class="btn" data-a="submit" ${D.items.length?"":"disabled"}>Submit all</button></div></section>`;
+  return h;
+}
+function recs(){
+  const mu=unk(rt);
+  let h=seg(TS.map(([k,l])=>[k,l+" Return · "+cnt(k,"pending")]),rt,"rec")+seg([["pending","● Pending"],["done","✓ Completed"],["problem","⚠ Problem items · "+mu.length]],sub,"sub");
+  if(sub==="problem")return h+`<section class="card"><h3>⚠ Problem items (${mu.length})</h3><p class="mut">Codes returned but not yet in the ${TN[rt]} masterlist. Saving one here adds it to the masterlist for every outlet.</p>${mu.length?mu.map((u,n)=>`<div class="row"><b style="flex:0 0 130px">${esc(u.code)}<br><small class="mut">${u.n} item(s)</small></b>${fld("pd"+n,"Description",u.desc)}${fld("pm"+n,"Material code")}${sel("pu"+n,"UOM",UOMS)}${sel("pc"+n,"Category",C[rt])}<button class="btn" data-a="fix" data-v="${n}">Save</button></div>`).join(""):`<p class="empty">No problem items right now.</p>`}</section>`;
+  const list=mine().filter(e=>e.type===rt&&e.status===sub&&(!cf||e.cat===cf)).sort((a,b)=>b.created-a.created);
+  return h+`<section class="card"><h3>${sub==="pending"?"● Pending":"✓ Completed"} ${TN[rt]} entries (${list.length})</h3><label style="max-width:260px">Category<select data-a="cf"><option value="">All categories</option>${C[rt].map(c=>`<option ${c===cf?"selected":""}>${esc(c)}</option>`).join("")}</select></label><div style="margin-top:14px">
+  ${list.length?list.map(e=>`<details class="e"><summary><b>${e.ref}</b><span class="tag ${e.type}">${esc(e.cat)}</span><span class="pill">${e.items.length} item(s)</span><span class="mut">${esc(e.party||"No supplier")} · ${fmt(e.created)} · ${esc(e.staff)}</span></summary><div class="eb"><div class="tbl"><table><tr><th>Code</th><th>Material</th><th>Description</th><th>Qty</th><th>Reason</th><th>Remark</th></tr>${e.items.map(i=>`<tr><td>${esc(i.code)}${fm(e.type,i.code)?"":` <span class="tag warn">No masterlist</span>`}</td><td>${esc(i.mat||"—")}</td><td>${esc(i.desc||"—")}</td><td>${i.qty} ${esc(i.uom||"")}</td><td>${esc(i.reason)}</td><td>${esc(i.remark||"")}</td></tr>`).join("")}</table></div><div class="row" style="margin:0 0 10px"><button class="btn g" data-a="prn" data-v="${e.id}">🖨 Print</button><button class="btn g" data-a="dpdf" data-v="${e.id}">⬇ PDF</button><button class="btn g" data-a="dedit" data-v="${e.id}">✎ Edit</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="all">📋 Material + Qty</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="mat">Material only</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="qty">Qty only</button></div><p class="mut">Supervisor: ${esc(e.sup)}${e.doc?` · Material document: <b>${esc(e.doc)}</b>`:""}</p>
+  ${e.status==="pending"?`<div class="row">${fld("kb"+e.id,"Key in by")}${fld("md"+e.id,"Material document no.")}<button class="btn" data-a="done" data-v="${e.id}">Mark completed</button>${isAdmin?`<button class="btn r" data-a="del" data-v="${e.id}">Delete</button>`:""}</div>`:""}</div></details>`).join(""):`<p class="empty">${loaded?`No ${sub} entries in this category.`:"Loading shared data…"}</p>`}</div></section>`;
+}
+function docs(){
+  if(dv){const e=R.find(x=>x.id==dv);if(e)return docview(e);dv=null}
+  const q=dq.trim().toLowerCase(),all=[...mine()].sort((a,b)=>b.created-a.created),hit=q?all.filter(e=>(e.ref+" "+(e.doc||"")+" "+(e.party||"")+" "+e.cat).toLowerCase().includes(q)):all;
+  return `<section class="card"><h3>🔍 Find document</h3><div class="row" style="margin-top:0">${fld("dq","Reference no., material document or supplier",dq)}<button class="btn" data-a="search">Search</button></div></section>
+  <section class="card"><h3>❐ Documents (${hit.length})</h3>${hit.length?`<div class="tbl"><table><tr><th>Reference no.</th><th>Date</th><th>Type</th><th>Category</th><th>Supplier</th><th>Items</th><th>Status</th><th>Material doc</th></tr>${hit.map(e=>`<tr data-a="dv" data-v="${e.id}" style="cursor:pointer"><td><button class="btn g" data-a="dv" data-v="${e.id}">${e.ref}</button></td><td>${fmt(e.created)}</td><td>${TN[e.type]}</td><td>${esc(e.cat)}</td><td>${esc(e.party||"—")}</td><td>${e.items.length}</td><td>${e.status==="done"?`<span class="tag fresh">Completed</span>`:`<span class="pill">Pending</span>`}</td><td>${esc(e.doc||"—")}</td></tr>`).join("")}</table></div><p class="mut">Click a document to view it.</p>`:`<p class="empty">${loaded?(q?"No document found.":"No documents yet."):"Loading…"}</p>`}</section>`;
+}
+function syncDE(){const g=v;DE.staff=g("e-st").trim();DE.sup=g("e-sp").trim();DE.chk=g("e-ck").trim();DE.party=g("e-pt").trim();DE.cat=g("e-ct")||DE.cat;DE.keyin=g("e-kb").trim();DE.doc=g("e-md").trim();DE.items=DE.items.map((i,n)=>({code:g("ec"+n).trim(),mat:g("ex"+n).trim(),desc:g("ed"+n).trim(),qty:+g("eq"+n),uom:g("eu"+n),reason:g("er"+n),remark:g("em"+n).trim()}))}
+function docedit(){
+  const E=DE,so=(id,o,val)=>`<select id="${id}">${[...new Set([...o,...(val?[val]:[])])].map(x=>`<option ${x===val?"selected":""}>${esc(x)}</option>`).join("")}</select>`;
+  return `<section class="card"><h3>✎ Editing ${E.ref} <span class="tag ${E.type}">${TN[E.type]}</span></h3><div class="form">${fld("e-st","Receiving",E.staff)}${fld("e-sp","Supervisor",E.sup)}${fld("e-ck","Checked by",E.chk)}${fld("e-pt","Return to (supplier)",E.party)}<label>Category${so("e-ct",C[E.type],E.cat)}</label>${fld("e-kb","Key in by",E.keyin)}${fld("e-md","Material document no.",E.doc)}</div></section>
+  <section class="card"><h3>Items (${E.items.length})</h3><div class="tbl"><table><tr><th>#</th><th>Code</th><th>Material</th><th>Description</th><th>Qty</th><th>UOM</th><th>Reason</th><th>Remark</th><th></th></tr>${E.items.map((i,n)=>`<tr><td>${n+1}</td><td><input id="ec${n}" value="${esc(i.code)}"></td><td><input id="ex${n}" value="${esc(i.mat)}"></td><td><input id="ed${n}" value="${esc(i.desc)}"></td><td><input id="eq${n}" type="number" value="${i.qty}" style="width:80px"></td><td>${so("eu"+n,UOMS,i.uom)}</td><td>${so("er"+n,REASONS,i.reason)}</td><td><input id="em${n}" value="${esc(i.remark)}"></td><td><button class="btn r" data-a="drm" data-v="${n}" aria-label="Remove line ${n+1}">✕</button></td></tr>`).join("")}</table></div><div class="row"><button class="btn g" data-a="dadd">+ Add line</button></div></section>
+  <div class="row" style="margin:0 0 16px"><button class="btn" data-a="dsave">Save changes</button><button class="btn g" data-a="dcancel">Cancel</button></div>`;
+}
+function docview(e){if(de&&DE&&DE.id===e.id)return docedit();
+  const m=(k,v)=>`<div><span class="mut" style="font-size:.75rem;font-weight:700;text-transform:uppercase">${k}</span><br><b>${esc(v||"—")}</b></div>`;
+  return `<div class="row" style="margin:0 0 12px"><button class="btn g" data-a="dvback">← All documents</button><button class="btn" data-a="dedit" data-v="${e.id}">✎ Edit document</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="all">📋 Material + Qty</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="mat">Material only</button><button class="btn g" data-a="cpy" data-v="${e.id}" data-f="qty">Qty only</button>${isAdmin?`<button class="btn r" data-a="ddel" data-v="${e.id}">🗑 Delete</button>`:""}<button class="btn g" data-a="prn" data-v="${e.id}">🖨 Print</button><button class="btn g" data-a="dpdf" data-v="${e.id}">⬇ PDF</button></div>
+  <section class="card"><h3>${e.ref} <span class="tag ${e.type}">${TN[e.type]}</span> <span class="pill">${e.status==="done"?"Completed":"Pending"}</span></h3><div class="form" style="margin-bottom:16px;align-items:start">${m("Date",fmt(e.created))}${m("Receiving",e.staff)}${m("Checked by",e.chk)}${m("Key in by",e.keyin)}${m("Category",e.cat)}${m("Supervisor",e.sup)}${m("Return to",e.party)}${m("Material document",e.doc)}</div><div class="tbl"><table><tr><th>#</th><th>Code</th><th>Material</th><th>Description</th><th>Qty</th><th>UOM</th><th>Reason</th><th>Remark</th></tr>${e.items.map((i,n)=>`<tr><td>${n+1}</td><td>${esc(i.code)}</td><td>${esc(i.mat||"—")}</td><td>${esc(i.desc||"—")}</td><td>${i.qty}</td><td>${esc(i.uom||"—")}</td><td>${esc(i.reason)}</td><td>${esc(i.remark||"—")}</td></tr>`).join("")}</table></div></section>`;
+}
+function docsOld(){
+  const q=dq.trim().toLowerCase(),all=mine().filter(e=>e.status==="done").sort((a,b)=>b.created-a.created),hit=q?all.filter(e=>(e.doc||"").toLowerCase().includes(q)||e.ref.toLowerCase().includes(q)):all.slice(0,8);
+  return `<section class="card"><h3>🔍 Find by Material Document</h3><div class="row" style="margin-top:0">${fld("dq","Material document no. or return ref",dq)}<button class="btn" data-a="search">Search</button></div></section>
+  <section class="card"><h3>${q?"Search results":"✓ Recently keyed-in documents"}</h3>${hit.length?`<div class="tbl"><table><tr><th>Material doc</th><th>Return ref</th><th>Type</th><th>Category</th><th>Items</th><th>Date</th></tr>${hit.map(e=>`<tr><td><b>${esc(e.doc)}</b></td><td>${e.ref}</td><td>${TN[e.type]}</td><td>${esc(e.cat)}</td><td>${e.items.length}</td><td>${fmt(e.created)}</td></tr>`).join("")}</table></div>`:`<p class="empty">${q?"No document found.":"No completed documents yet."}</p>`}</section>`;
+}
+function master(){
+  const q=mq.trim().toLowerCase(),all=Object.values(M),rows=all.filter(x=>x.type===mt&&(!q||(x.code+" "+x.desc).toLowerCase().includes(q))).slice(0,20),rec=[...all].sort((a,b)=>(b.updated||0)-(a.updated||0)).slice(0,10),f=ML||{};
+  return seg(TS,mt,"ms")+`<div class="row" style="margin:0 0 14px"><button class="btn g" data-a="xl">⬇ Excel (Food + Non-Food)</button><button class="btn g" data-a="pdf">⬇ PDF (${TN[mt]})</button></div><section class="card"><h3>+ Add / Update ${TN[mt]} Masterlist Item</h3><div class="form">${fld("mc","Barcode / PLU",f.code)}${fld("mm","Material code (SAP)",f.mat)}${fld("md","Description",f.desc)}${sel("mu","UOM",UOMS,(f.uom||"").toUpperCase())}${sel("mg","Category",C[mt],f.cat)}<button class="btn" data-a="mlsave">Save to masterlist</button></div></section>
+  <section class="card"><h3>⬇ Import from SAP / Excel</h3><p class="mut">In Excel, arrange the columns as: <b>Material · Barcode · Description · UOM · Category</b> (UOM and Category are optional). Select the rows, copy (Ctrl+C) and paste below, or choose a CSV file. Items go into the ${TN[mt]} masterlist. An item with the same barcode or material is updated.</p><label>Paste rows here<textarea id="imp" rows="6" placeholder="10008824    2840041    WHOLE CHICKEN    KG" style="width:100%;margin-top:4px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:12px monospace"></textarea></label><div class="row"><button class="btn" data-a="mlimp">Import</button><label class="btn g" style="cursor:pointer;flex:0 0 auto">Choose CSV file<input id="impf" type="file" accept=".csv,.tsv,.txt" hidden></label></div></section>
+  <section class="card"><h3>🔍 Find item</h3><div class="row" style="margin-top:0">${fld("mq","Code or description",mq)}<button class="btn" data-a="msearch">Search</button></div>
+  ${rows.length?`<div class="tbl"><table><tr><th>Barcode / code</th><th>Material</th><th>Description</th><th>UOM</th><th>Category</th><th></th></tr>${rows.map(x=>`<tr><td>${esc(x.code)}</td><td>${x.mat?esc(x.mat):`<span class="tag warn">missing</span>`}</td><td>${esc(x.desc)}</td><td>${esc(x.uom||"")}</td><td>${esc(x.cat||"")}</td><td><button class="btn g" data-a="mledit" data-v="${mk(x.type,x.code)}">Edit</button>${isAdmin?` <button class="btn r" data-a="mldel" data-v="${mk(x.type,x.code)}">Delete</button>`:""}</td></tr>`).join("")}</table></div>`:`<p class="empty">${all.length?"No items match.":loaded?"Masterlist is empty. Add the first item above.":"Loading…"}</p>`}</section>
+  <section class="card"><h3>↻ Recent masterlist updates</h3><ul class="act">${rec.length?rec.map(x=>`<li><span class="tag ${x.type}">${TN[x.type]}</span><b>${esc(x.code)}</b> ${esc(x.desc)}<small>${x.updated?fmt(x.updated):""}</small></li>`).join(""):`<li class="mut">Nothing yet.</li>`}</ul></section>`;
+}
+function admin(){
+  if(!isAdmin)return `<section class="card"><h3>🔒 Admin access</h3><p class="mut">Admin tools are for people with Editor access to this page. Ask the page owner to share it with you as an Editor.</p></section>`;
+  const p=mine().filter(e=>e.status==="pending").sort((a,b)=>b.created-a.created);
+  return `<section class="card"><h3>+ Add New Category</h3><div class="row" style="margin-top:0"><label>Type<select id="cty">${TS.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></label>${fld("cn","Category name")}<button class="btn" data-a="catadd">Save category</button></div><p class="mut">Shared with every outlet — appears in New Return, Masterlist and Records.</p><p class="mut">Food: ${C.fresh.map(esc).join(", ")}<br>Non-Food: ${C.goods.map(esc).join(", ")}</p><div class="row"><button class="btn g" data-a="catreset">Reset to SAP list</button></div></section>
+  <section class="card"><h3>🗑 Delete pending transactions (${OUT})</h3>${p.length?p.map(e=>`<div class="row" style="margin:6px 0"><span><b>${e.ref}</b> · <span class="tag ${e.type}">${TN[e.type]}</span> ${esc(e.cat)} · ${e.items.length} item(s) · ${fmt(e.created)}</span><button class="btn r" data-a="del" data-v="${e.id}" style="margin-left:auto">Delete</button></div>`).join(""):`<p class="empty">No pending transactions.</p>`}</section>`;
+}
+const sets=()=>`<section class="card"><h3>🏢 Outlet Settings</h3><div class="row" style="margin-top:0">${fld("os","Current outlet",OUT,"e.g. 1007-SHPP")}<button class="btn" data-a="outlet-save" data-v="os">Save outlet</button></div><p class="mut">Sets which outlet this device records returns for. Returns are shared live between all devices; masterlist and categories are shared across outlets.</p></section>`;
+const V={home,new:newv,records:recs,docs,master,admin,store:sets};
+function render(){
+  $("#nav").innerHTML=NAV.map(([k,l])=>`<a href="#${k}" class="${k===view?"on":""}">${l}</a>`).join("");
+  $("#op").textContent="● OUTLET: "+(OUT||"not set");$("#modal").classList.toggle("on",!OUT);
+  $("#main").innerHTML=(err?`<div class="card" role="alert">${esc(err)}</div>`:"")+V[view]();
+}
+const soft=()=>{if(de)return;const a=document.activeElement;if(a&&/INPUT|SELECT/.test(a.tagName)&&$("#main").contains(a))return;render()};
+function route(){const h=location.hash.slice(1);view=V[h]?h:"home";if(view!=="docs"){de=false;dv=null}render()}
+addEventListener("hashchange",route);
+function look(){const c=v("ic").trim(),m=D&&fm(D.type,c);$("#hint").textContent=c?(m?"✓ Found in masterlist · "+(m.uom||"no UOM")+(m.mat?" · Material "+m.mat:" · no Material code yet — type it in the Material field"):"Not in masterlist — it will be listed under Problem items"):"";if(m){$("#id").value=m.desc;if(m.mat)$("#imat").value=m.mat;const s=$("#iu"),u=(m.uom||"").toUpperCase();if(u){if(![...s.options].some(o=>o.value===u))s.add(new Option(u,u));s.value=u}}}
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset.a==="cf"){cf=t.value;render()}else if(t.id==="ic")look();else if(t.id==="impf"&&t.files[0]){const fr=new FileReader();fr.onload=()=>{$("#imp").value=String(fr.result);toast("File loaded — press Import")};fr.readAsText(t.files[0])}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="ic"){e.preventDefault();look();$("#iq").focus()}});
+function repData(){
+  const f=rf?new Date(rf+"T00:00:00").getTime():0,t=rto?new Date(rto+"T23:59:59").getTime():Infinity;
+  const es=mine().filter(e=>e.created>=f&&e.created<=t&&(!rty||e.type===rty)&&(!rst||e.status===rst)).sort((a,b)=>b.created-a.created),rows=[];
+  es.forEach(e=>e.items.forEach(i=>rows.push({ref:e.ref,date:fmt(e.created),type:TN[e.type],cat:e.cat,party:e.party||"-",rec:e.staff,sup:e.sup,st:e.status==="done"?"Completed":"Pending",doc:e.doc||"",code:i.code,desc:i.desc||"",qty:i.qty,uom:i.uom||"",reason:i.reason})));
+  const grp=k=>{const m={};rows.forEach(r=>{const o=m[r[k]]=m[r[k]]||{n:r[k],lines:0,qty:0};o.lines++;o.qty+=r.qty});return Object.values(m).sort((a,b)=>b.qty-a.qty)};
+  return{es,rows,qty:rows.reduce((s,r)=>s+r.qty,0),done:es.filter(e=>e.status==="done").length,cat:grp("cat"),reason:grp("reason"),party:grp("party")};
+}
+function report(){
+  const d=repData(),gt=(t,a)=>`<section class="card"><h3>By ${t}</h3>${a.length?`<div class="tbl"><table><tr><th>${t}</th><th>Lines</th><th>Qty</th></tr>${a.map(x=>`<tr><td>${esc(x.n)}</td><td>${x.lines}</td><td>${x.qty}</td></tr>`).join("")}</table></div>`:`<p class="empty">No data.</p>`}</section>`,kp=(l,n)=>`<div class="card" style="margin:0"><span class="mut">${l}</span><b style="display:block;font-size:1.8rem">${n}</b></div>`;
+  return `<section class="card"><h3>▦ Return Report</h3><div class="form">${fld("rf","From",rf,"","date")}${fld("rto","To",rto,"","date")}<label>Type<select id="rty"><option value="">All</option>${TS.map(([k,l])=>`<option value="${k}" ${rty===k?"selected":""}>${l}</option>`).join("")}</select></label><label>Status<select id="rst"><option value="">All</option><option value="pending" ${rst==="pending"?"selected":""}>Pending</option><option value="done" ${rst==="done"?"selected":""}>Completed</option></select></label><button class="btn" data-a="rapply">Apply</button></div>
+  <div class="row"><button class="btn g" data-a="rxl">⬇ Report Excel</button><button class="btn g" data-a="rpdf">⬇ Report PDF</button></div></section>
+  <div class="grid" style="margin-bottom:16px">${kp("Return documents",d.es.length)}${kp("Completed",d.done)}${kp("Line items",d.rows.length)}${kp("Total qty",d.qty)}</div>
+  ${gt("Category",d.cat)}${gt("Reason",d.reason)}${gt("Supplier",d.party)}
+  <section class="card"><h3>Detail (${d.rows.length} lines)</h3>${d.rows.length?`<div class="tbl"><table><tr><th>Date</th><th>Ref</th><th>Type</th><th>Category</th><th>Supplier</th><th>Code</th><th>Description</th><th>Qty</th><th>Reason</th><th>Status</th><th>Material doc</th></tr>${d.rows.slice(0,100).map(r=>`<tr><td>${r.date}</td><td>${r.ref}</td><td>${r.type}</td><td>${esc(r.cat)}</td><td>${esc(r.party)}</td><td>${esc(r.code)}</td><td>${esc(r.desc)}</td><td>${r.qty} ${esc(r.uom)}</td><td>${esc(r.reason)}</td><td>${r.st}</td><td>${esc(r.doc)}</td></tr>`).join("")}</table></div>${d.rows.length>100?`<p class="mut">Showing the first 100 lines. The Excel and PDF contain all ${d.rows.length}.</p>`:""}`:`<p class="empty">${loaded?"No returns match these filters.":"Loading…"}</p>`}</section>`;
+}
+function pdocHTML(e){
+  const site=esc((OUT||"").split("-").pop()),m=(k,v)=>`<div class="pm"><small>${k}</small><b>${esc(v||"-")}</b></div>`;
+  return `<h2>${site} — ${TN[e.type]} Return</h2><p class="ps">SUPERMARKET GOODS RETURN REPORT</p><hr><div class="pg"><div>${m("Date",fmt(e.created))}${m("Receiving",e.staff)}${m("Checked By",e.chk)}${m("Key In By",e.keyin)}</div><div>${m("Return Category",e.cat)}${m("Supervisor",e.sup)}${m("Return To",e.party)}${m("Material Document",e.doc)}</div></div><hr>
+  <table><tr><th>PLU / PRODUCT CODE</th><th>DESCRIPTION</th><th>QUANTITY</th><th>UOM</th><th>REASON</th><th>REMARK</th></tr>${e.items.map(i=>`<tr><td>${esc(i.code)}</td><td>${esc(i.desc)}</td><td>${i.qty}</td><td>${esc(i.uom)}</td><td>${esc(i.reason)}</td><td>${esc(i.remark)}</td></tr>`).join("")}</table>
+  <div class="psg"><div><i></i>SUPERVISOR<br>${esc(e.sup)}</div><div><i></i>CHECKED BY<br>${esc(e.chk||"")}</div><div><i></i>VERIFIED BY</div></div>`;
+}
+async function copyText(t,msg){
+  const ok=()=>{toast(msg);const p=$("#cpv");if(p){const ln=t.split("\n");p.innerHTML=`<b>Last copied</b> <span class="mut">(▸ = tab)</span> <button class="btn g" data-a="cpvx" style="padding:2px 10px;float:right" aria-label="Close preview">✕</button><pre>${esc(ln.slice(0,12).join("\n").replace(/\t/g," ▸ "))}${ln.length>12?"\n…":""}</pre>`;p.classList.add("on")}};
+  try{await navigator.clipboard.writeText(t);ok()}catch(x){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();let r=false;try{r=document.execCommand("copy")}catch(y){}a.remove();r?ok():toast("Copy was blocked by the browser")}
+}
+function cpy(id,f){
+  const e=R.find(x=>x.id==id);if(!e)return;const rows=e.items.filter(i=>i.qty>0);if(!rows.length)return toast("No items with a quantity to copy");
+  if(f!=="qty"){const bad=rows.filter(i=>!i.mat).map(i=>i.desc||i.code);if(bad.length)return toast("No Material code for: "+bad.slice(0,3).join(", ")+(bad.length>3?" +"+(bad.length-3)+" more":"")+" — add it in Masterlist or use Edit, then copy again")}
+  const col={all:i=>[i.mat,i.qty].join("\t"),mat:i=>i.mat,qty:i=>i.qty}[f||"all"];
+  return copyText(rows.map(col).join("\n"),"Copied "+rows.length+" lines — paste into SAP");
+}
+function prn(id){
+  const e=R.find(x=>x.id==id);if(!e)return;$("#pdoc").innerHTML=pdocHTML(e);
+  let fired=false;const on=()=>{fired=true};addEventListener("beforeprint",on,{once:true});
+  try{window.print()}catch(x){}
+  setTimeout(()=>{removeEventListener("beforeprint",on);if(!fired){toast("Direct printing is blocked here — saving the PDF instead. Open it and press Ctrl+P");dpdf(id)}},700);
+}
+function dpdf(id){
+  const e=R.find(x=>x.id==id),J=window.jspdf;if(!e)return;if(!J)return toast("PDF tool did not load — refresh and try again");
+  const doc=new J.jsPDF({unit:"mm",format:"a4"});if(!doc.autoTable)return toast("PDF table tool did not load — refresh and try again");
+  const W=210,site=(OUT||"").split("-").pop();doc.setFont("times","bold");doc.setFontSize(15);doc.text(site+" - "+TN[e.type]+" Return",W/2,18,{align:"center"});doc.setFontSize(8);doc.text("SUPERMARKET GOODS RETURN REPORT",W/2,23,{align:"center"});doc.line(14,26,W-14,26);
+  [["Date",fmt(e.created)],["Receiving",e.staff],["Checked By",e.chk],["Key In By",e.keyin]].forEach(([k,v],i)=>{doc.setFontSize(7);doc.setTextColor(122,74,0);doc.text(k.toUpperCase(),14,32+i*10);doc.setFontSize(9);doc.setTextColor(20);doc.text(String(v||"-"),14,36+i*10)});
+  [["Return Category",e.cat],["Supervisor",e.sup],["Return To",e.party],["Material Document",e.doc]].forEach(([k,v],i)=>{doc.setFontSize(7);doc.setTextColor(122,74,0);doc.text(k.toUpperCase(),110,32+i*10);doc.setFontSize(9);doc.setTextColor(20);doc.text(String(v||"-"),110,36+i*10)});
+  doc.line(14,72,W-14,72);doc.autoTable({startY:76,theme:"grid",head:[["PLU / PRODUCT CODE","DESCRIPTION","QUANTITY","UOM","REASON","REMARK"]],body:e.items.map(i=>[i.code,i.desc||"",i.qty,i.uom||"",i.reason,i.remark||""]),styles:{font:"times",fontSize:8,textColor:20,lineColor:90,lineWidth:.2},headStyles:{fillColor:255,textColor:20,fontStyle:"bold"}});
+  let y=doc.lastAutoTable.finalY+30;if(y>270){doc.addPage();y=40}
+  [[14,"SUPERVISOR",e.sup],[80,"CHECKED BY",e.chk],[146,"VERIFIED BY",""]].forEach(([x,l,n])=>{doc.line(x,y,x+50,y);doc.setFontSize(7);doc.text(l,x,y+4);doc.text(String(n||""),x,y+8)});
+  saveFile("Return-"+e.ref+".pdf",doc.output("blob"));
+}
+const rname=ext=>"ReturnReport-"+(OUT||"outlet")+"-"+new Date().toISOString().slice(0,10)+"."+ext;
+function rxl(){
+  if(!window.XLSX)return toast("Excel tool did not load — refresh and try again");const d=repData();if(!d.rows.length)return toast("No data for these filters");
+  const sm=[["Return Report",OUT],["Period",(rf||"start")+" to "+(rto||"today")],["Return documents",d.es.length],["Completed",d.done],["Line items",d.rows.length],["Total qty",d.qty],[]];
+  [["By category",d.cat],["By reason",d.reason],["By supplier",d.party]].forEach(([t,a])=>{sm.push([t,"Lines","Qty"]);a.forEach(x=>sm.push([x.n,x.lines,x.qty]));sm.push([])});
+  const wb=XLSX.utils.book_new(),s1=XLSX.utils.aoa_to_sheet(sm),s2=XLSX.utils.aoa_to_sheet([["Date","Return ref","Type","Category","Supplier","Receiving","Supervisor","Code","Description","Qty","UOM","Reason","Status","Material doc"],...d.rows.map(r=>[r.date,r.ref,r.type,r.cat,r.party,r.rec,r.sup,r.code,r.desc,r.qty,r.uom,r.reason,r.st,r.doc])]);
+  s1["!cols"]=[{wch:36},{wch:12},{wch:10}];s2["!cols"]=[{wch:18},{wch:12},{wch:10},{wch:32},{wch:22},{wch:16},{wch:16},{wch:16},{wch:36},{wch:8},{wch:8},{wch:14},{wch:11},{wch:16}];
+  XLSX.utils.book_append_sheet(wb,s1,"Summary");XLSX.utils.book_append_sheet(wb,s2,"Detail");saveFile(rname("xlsx"),new Blob([XLSX.write(wb,{bookType:"xlsx",type:"array"})]));
+}
+function rpdf(){
+  const J=window.jspdf,d=repData();if(!J)return toast("PDF tool did not load — refresh and try again");if(!d.rows.length)return toast("No data for these filters");
+  const doc=new J.jsPDF({orientation:"l",unit:"mm",format:"a4"});if(!doc.autoTable)return toast("PDF table tool did not load — refresh and try again");
+  const hf={fillColor:[114,47,62]};doc.setFontSize(14);doc.text("Return Report - Outlet "+(OUT||"-"),14,14);doc.setFontSize(9);
+  doc.text("Period: "+(rf||"start")+" to "+(rto||"today")+" | "+d.es.length+" documents | "+d.rows.length+" lines | qty "+d.qty+" | printed "+fmt(Date.now()),14,19);
+  let y=24;[["Category",d.cat],["Reason",d.reason],["Supplier",d.party]].forEach(([t,a])=>{doc.autoTable({startY:y,head:[[t,"Lines","Qty"]],body:a.map(x=>[x.n,x.lines,x.qty]),styles:{fontSize:8},headStyles:hf,tableWidth:140,margin:{left:14}});y=doc.lastAutoTable.finalY+6});
+  doc.addPage();doc.autoTable({startY:14,head:[["Date","Ref","Type","Category","Supplier","Code","Description","Qty","Reason","Status","Material doc"]],body:d.rows.map(r=>[r.date,r.ref,r.type,r.cat,r.party,r.code,r.desc,r.qty+" "+r.uom,r.reason,r.st,r.doc]),styles:{fontSize:7},headStyles:hf});
+  saveFile(rname("pdf"),doc.output("blob"));
+}
+const mlRows=t=>Object.values(M).filter(x=>x.type===t).sort((a,b)=>String(a.cat||"").localeCompare(String(b.cat||""))||String(a.code).localeCompare(String(b.code),undefined,{numeric:true}));
+async function saveFile(name,data){try{const b=data instanceof Blob?data:new Blob([data]);const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast("Saved "+name)}catch(e){toast("Could not save file")}}
+const fname=ext=>"Masterlist-"+(OUT||"outlet")+"-"+new Date().toISOString().slice(0,10)+"."+ext;
+function xl(){if(!window.XLSX)return toast("Excel tool did not load — refresh and try again");if(!Object.keys(M).length)return toast("Masterlist is empty");const wb=XLSX.utils.book_new();TS.forEach(([k,l])=>{const ws=XLSX.utils.aoa_to_sheet([["Barcode","Material","Description","UOM","Category","Updated"],...mlRows(k).map(x=>[x.code,x.mat||"",x.desc,x.uom||"",x.cat||"",x.updated?fmt(x.updated):""])]);ws["!cols"]=[{wch:16},{wch:44},{wch:8},{wch:36},{wch:18}];XLSX.utils.book_append_sheet(wb,ws,l)});saveFile(fname("xlsx"),new Blob([XLSX.write(wb,{bookType:"xlsx",type:"array"})]))}
+function pdf(){const J=window.jspdf,rows=mlRows(mt);if(!J)return toast("PDF tool did not load — refresh and try again");if(!rows.length)return toast("No "+TN[mt]+" items to export");const doc=new J.jsPDF({unit:"mm",format:"a4"});if(!doc.autoTable)return toast("PDF table tool did not load — refresh and try again");doc.setFontSize(14);doc.text("Masterlist - "+TN[mt]+" - Outlet "+(OUT||"-"),14,14);doc.setFontSize(9);doc.text("Printed "+fmt(Date.now())+" | "+rows.length+" items",14,19);doc.autoTable({startY:23,head:[["Barcode","Material","Description","UOM","Category"]],body:rows.map(x=>[x.code,x.mat||"",x.desc,x.uom||"",x.cat||""]),styles:{fontSize:8},headStyles:{fillColor:[114,47,62]}});saveFile(fname("pdf"),doc.output("blob"))}
+const putML=(t,c,d,u,g,m)=>db.doc("masterlist/"+mk(t,c)).set({type:t,code:c.trim(),mat:(m||"").trim(),desc:d.trim(),uom:u.trim(),cat:g,updated:Date.now()});
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-a]");if(!b||b.tagName==="SELECT")return;const a=b.dataset.a,x=b.dataset.v;
+  if(["submit","done","del","fix","mlsave","mldel","catadd","catreset"].includes(a)&&!db)return toast("Shared database unavailable");
+  if(a==="nt"){nt=x;if(b.tagName==="A")return render()}
+  else if(a==="cont"){const st=v("st").trim(),sp=v("sp").trim(),ct=v("ct");if(!st||!sp||!ct)return toast("Please fill in receiving, supervisor and category");D={...(D||{items:[]}),type:nt,staff:st,sup:sp,chk:v("ck").trim(),party:v("pt").trim(),cat:ct,edit:false}}
+  else if(a==="edit")D.edit=true;
+  else if(a==="cancel"){if(D.items.length&&!b.dataset.c){b.dataset.c=1;b.textContent="Tap again to discard";return}D=null}
+  else if(a==="look"){return look()}
+  else if(a==="add"){const c=v("ic").trim(),q=+v("iq"),r=v("ir"),m=fm(D.type,c);const u=v("iu");if(!c||!(q>0)||!u||!r)return toast("Enter code, quantity, UOM and reason");D.items.push({code:c,mat:v("imat").trim()||(m?m.mat||"":""),desc:v("id").trim()||(m?m.desc:""),qty:q,uom:u,reason:r,remark:v("im").trim()});toast("Item added")}
+  else if(a==="rm")D.items.splice(+x,1);
+  else if(a==="submit"){const id=Date.now()+"-"+Math.floor(Math.random()*1000),ref="RET-"+Date.now().toString(36).toUpperCase().slice(-6),{edit,...d}=D;b.disabled=true;
+    if(await W(()=>db.collection("returns").doc(id).set({...d,ref,outlet:OUT,created:Date.now(),status:"pending",doc:""}),"Submitted as "+ref)){D=null;rt=d.type;sub="pending";location.hash="records"}else b.disabled=false;return}
+  else if(a==="rec"){rt=x;sub="pending";cf="";if(b.tagName==="A")return render()}
+  else if(a==="prob"){sub="problem";if(b.tagName==="A")return render()}
+  else if(a==="sub")sub=x;
+  else if(a==="done"){const m=v("md"+x).trim();if(!m)return toast("Enter the material document number");await W(()=>db.collection("returns").doc(x).update({status:"done",doc:m,keyin:v("kb"+x).trim()}),"Marked completed");return}
+  else if(a==="del"){if(!b.dataset.c){b.dataset.c=1;b.textContent="Tap again to delete";return}await W(()=>db.collection("returns").doc(x).delete(),"Deleted");return}
+  else if(a==="fix"){const u=unk(rt)[+x],d=v("pd"+x).trim(),g=v("pc"+x);if(!u||!d||!g)return toast("Enter description and category");await W(()=>putML(rt,u.code,d,v("pu"+x),g,v("pm"+x)),"Added to masterlist");return}
+  else if(a==="ms"){mt=x;ML=null}
+  else if(a==="mlimp"){
+    if(!db)return toast("Shared database unavailable");const t=mt,txt=v("imp");if(!txt.trim())return toast("Paste the rows from Excel first");
+    const arr=[];let skip=0;
+    txt.split(/\r?\n/).forEach((ln,k)=>{if(!ln.trim())return;const c=(ln.includes("\t")?ln.split("\t"):ln.split(/[,;]/)).map(z=>z.trim().replace(/^"|"$/g,""));
+      if(k===0&&/material|barcode|ean|desc/i.test(c.join(" "))&&!/^\d/.test(c[0]))return;
+      let[mat,tc,desc,uom,g]=c;mat=(mat||"").replace(/^0{3,}(?=\d)/,"");tc=tc||"";desc=desc||"";if(!desc||!(mat||tc)){skip++;return}
+      const cat=g?(C[t].find(z=>z===g||z.split(" ")[0]===g.split(" ")[0])||""):"",code=tc||mat;
+      arr.push([mk(t,code),{type:t,code,mat,desc,uom:(uom||"").toUpperCase(),cat,updated:Date.now()}])});
+    if(!arr.length)return toast("No valid rows found — check the column order");
+    toast("Importing "+arr.length+" items…");
+    const col=db.collection("masterlist");
+    if(await W(async()=>{if(col.setMany)await col.setMany(arr);else for(let i=0;i<arr.length;i+=25)await Promise.all(arr.slice(i,i+25).map(([id,d])=>col.doc(id).set(d)))},"Imported "+arr.length+" items"+(skip?" · skipped "+skip+" rows without description or code":""))){const p=$("#imp");if(p)p.value=""}return}
+  else if(a==="msearch")mq=v("mq");
+  else if(a==="mlsave"){const m=v("mm").trim(),c=v("mc").trim()||m,d=v("md").trim(),g=v("mg");if(!c||!d||!g)return toast("Enter barcode or material, description and category");if(await W(()=>putML(mt,c,d,v("mu"),g,m),"Saved to masterlist")){ML=null;render()}return}
+  else if(a==="mledit"){ML=M[x];if(ML)mt=ML.type}
+  else if(a==="mldel"){if(!b.dataset.c){b.dataset.c=1;b.textContent="Tap again to delete";return}await W(()=>db.doc("masterlist/"+x).delete(),"Item deleted");return}
+  else if(a==="catadd"){const t=v("cty"),n=v("cn").trim();if(!n||C[t].includes(n))return toast("Enter a new category name");const nc={...C,[t]:[...C[t],n]};if(await W(()=>db.doc("config/cats").set(nc),"Category added")){C=nc;render()}return}
+  else if(a==="ddel"){if(!db)return toast("Shared database unavailable");if(!b.dataset.c){b.dataset.c=1;b.textContent="Tap again to delete";return}if(await W(()=>db.collection("returns").doc(x).delete(),"Document deleted")){dv=null;de=false;render()}return}
+  else if(a==="dedit"){const e=R.find(i=>i.id==x);if(!e)return;DE=JSON.parse(JSON.stringify(e));de=true;dv=x;if(view!=="docs"){location.hash="docs";return}}
+  else if(a==="dcancel"){de=false;DE=null}
+  else if(a==="dadd"){syncDE();DE.items.push({code:"",desc:"",qty:1,uom:"PCS",reason:"Damaged",remark:""})}
+  else if(a==="drm"){syncDE();DE.items.splice(+x,1)}
+  else if(a==="dsave"){syncDE();const E=DE;if(!db)return toast("Shared database unavailable");if(!E.staff||!E.sup||!E.cat)return toast("Receiving, supervisor and category are required");if(!E.items.length)return toast("A document needs at least one item");if(E.items.some(i=>!i.code||!(i.qty>0)||!i.uom||!i.reason))return toast("Each line needs code, quantity, UOM and reason");
+    if(await W(()=>db.collection("returns").doc(E.id).update({staff:E.staff,sup:E.sup,chk:E.chk||"",party:E.party||"",cat:E.cat,keyin:E.keyin||"",doc:E.doc||"",items:E.items,status:E.doc?"done":"pending",edited:Date.now()}),"Document updated")){de=false;DE=null;render()}return}
+  else if(a==="dv"){dv=x;de=false}
+  else if(a==="dvback")dv=null;
+  else if(a==="cpy")return cpy(x,b.dataset.f);
+  else if(a==="cpvx"){$("#cpv").classList.remove("on");return}
+  else if(a==="prn")return prn(x);
+  else if(a==="dpdf")return dpdf(x);
+  else if(a==="rapply"){rf=v("rf");rto=v("rto");rty=v("rty");rst=v("rst")}
+  else if(a==="rxl")return rxl();
+  else if(a==="rpdf")return rpdf();
+  else if(a==="xl")return xl();
+  else if(a==="pdf")return pdf();
+  else if(a==="catreset"){if(!b.dataset.c){b.dataset.c=1;b.textContent="Tap again to reset";return}if(await W(()=>db.doc("config/cats").delete(),"Categories reset to SAP list")){C=JSON.parse(JSON.stringify(DEF));render()}return}
+  else if(a==="search")dq=v("dq");
+  else if(a==="outlet")OUT="";
+  else if(a==="outlet-save"){const o=v(x).trim().toUpperCase();if(!o)return toast("Enter an outlet code");OUT=o;try{localStorage.setItem("rrs-outlet",o)}catch(e){}toast("Outlet saved")}
+  render();
+});
+route();
+const localDB=(()=>{const K="rrs-localdb";let S={};try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const subs=[];
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){throw{code:"storage_full"}}};
+const fire=()=>subs.forEach(f=>f());
+const cp=o=>JSON.parse(JSON.stringify(o));
+const colSnap=n=>({docs:Object.entries(S[n]||{}).map(([id,d])=>({id,data:()=>cp(d)}))});
+const docSnap=(n,i)=>{const d=(S[n]||{})[i];return{exists:!!d,id:i,data:()=>d?cp(d):undefined}};
+const put=(n,i,d,merge)=>{S[n]=S[n]||{};S[n][i]=merge?{...(S[n][i]||{}),...d}:cp(d)};
+const docRef=(n,i)=>({set:async d=>{put(n,i,d);save();fire()},update:async d=>{if(!(S[n]||{})[i])throw{code:"not_found"};put(n,i,d,true);save();fire()},delete:async()=>{if(S[n]){delete S[n][i];save();fire()}},onSnapshot:cb=>{const f=()=>cb(docSnap(n,i));subs.push(f);f()}});
+const split=p=>{const k=p.indexOf("/");return[p.slice(0,k),p.slice(k+1)]};
+try{window.addEventListener("storage",e=>{if(e.key===K){try{S=JSON.parse(e.newValue||"{}")}catch(x){}fire()}})}catch(e){}
+return{collection:n=>({doc:i=>docRef(n,i),add:async d=>{const i="d"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);put(n,i,d);save();fire();return docRef(n,i)},setMany:async arr=>{arr.forEach(([i,d])=>put(n,i,d));save();fire()},onSnapshot:(cb,er)=>{const f=()=>cb(colSnap(n));subs.push(f);f()}}),doc:p=>{const[n,i]=split(p);return docRef(n,i)}}})();
+(async()=>{
+  const u={canEdit:async()=>true},t=setTimeout(()=>{if(!loaded){err="Can’t reach the shared data yet — what you see may be out of date.";render()}},10000);
+  db=localDB;
+  if(!db){clearTimeout(t);err="Shared database unavailable. Open this page from its claude.ai link while signed in.";render();return}
+  try{isAdmin=u?await u.canEdit():false}catch(e){}
+  db.collection("returns").onSnapshot(s=>{R=s.docs.map(d=>({...d.data(),id:d.id}));loaded=true;err="";clearTimeout(t);soft()},e=>{err="Could not load returns ("+e.code+")";render()});
+  db.collection("masterlist").onSnapshot(s=>{M={};s.docs.forEach(d=>{M[d.id]=d.data()});soft()},e=>{});
+  db.doc("config/cats").onSnapshot(s=>{if(s.exists)C={...C,...s.data()};soft()},e=>{});
+  render();
+})();
+</script>
+</body>
+</html>
